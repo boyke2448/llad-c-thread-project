@@ -1,9 +1,12 @@
 TARGET=./bin/my_program
 SRC=$(wildcard src/*.c)
 OBJ=$(SRC:src/%.c=obj/%.o)
-CFLAGS=-Wall -Wextra -I include -pthread
+CFLAGS=-I include -pthread
 
 all: $(TARGET)
+clean: 
+	rm -rf obj/*
+	rm -rf bin/*
 
 $(TARGET): $(OBJ)
 	@mkdir -p $(dir $@)
