@@ -1,21 +1,33 @@
-// #include "threadpool.h"
+#include "threadpool.h"
 
-// void* thread_function(void *args) {
-//     return NULL;
-// }
+void* thread_function(void *args) {
+    return NULL;
+}
 
-// void threadpool_init(threadpool_t *pool)
-// {
-//     pool->queued = 0;
-//     pool->queue_back = 0;
-//     pool->queue_front = 0;
-//     pool->stop = 0;
+void threadpool_init(threadpool_t *pool)
+{
+    pool->queued = 0;
+    pool->queue_back = 0;
+    pool->queue_front = 0;
+    pool->stop = 0;
 
-//     pthread_mutex_init(&(pool->lock), NULL);
-//     pthread_cond_init(&(pool->notify), NULL);
+    pthread_mutex_init(&(pool->lock), NULL);
+    pthread_cond_init(&(pool->notify), NULL);
 
-//     for(int i = 0; i < THREADS; i++) {
-//         pthread_create(&(pool->threads[i]), NULL, thread_function, pool);
-//     }
-// }
+    for(int i = 0; i < THREADS; i++) {
+        pthread_create(&(pool->threads[i]), NULL, thread_function, pool);
+    }
+}
+
+void threadpool_destroy(threadpool_t* pool) {
+
+}
+
+void threadpool_add_task(threadpool_t* pool, void (*function)(void*), void* arg){
+
+}
+
+void example_task(void* arg){
+
+}
 
