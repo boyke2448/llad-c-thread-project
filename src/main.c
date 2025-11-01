@@ -1,41 +1,34 @@
 #include <stdio.h>
 #include <pthread.h>
+#include <semaphore.h>
 
 #define THREAD_COUNT 10
 
-int counter = 0;
-pthread_mutex_t lock;
+sem_t semaphore;
 
-void *thread_function(void *args) {
-    
-    pthread_mutex_lock(&lock);
-    
-    for(int i=0; i < 100000; i++) {
-        counter++;
-    }
-    
-    pthread_mutex_unlock(&lock);
-    
-    printf("Counter is %d\n", counter);
+
+void *publisher(void *arg) {
+    sem_post(&semaphore);
+    printf("Published.\n");
+    return NULL;
+}
+
+void *subscriber(void *arg){
+    sem_wait(&semaphore);
+    printf("Subscriber read.\n");
+    return NULL;
 }
 
 int main(int argc, char *argv[]) {
     
-    pthread_t threads[THREAD_COUNT];
-    pthread_mutex_init(&lock, NULL);
-    
-    for (int i = 0; i < THREAD_COUNT; i++) {
-        if(pthread_create(&threads[i], NULL, thread_function, NULL)) {
+    pthread_t pub, sub;
+    sem_init(&semaphore,0,0);
 
-            printf("Thread %d created.\n", i);
-            
-        }
-    }
+    pthread_create(&pub, NULL, publisher, NULL);
+    pthread_create(&sub, NULL, subscriber, NULL);
+    pthread_join(pub, NULL);
+    pthread_join(sub, NULL);
+    sem_destroy(&semaphore);
 
-    for(int i = 0; i < THREAD_COUNT; i++) {
-        pthread_join(threads[i], NULL);
-    }
-
-    pthread_mutex_destroy(&lock);
     return 0;
 }
