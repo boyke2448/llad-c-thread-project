@@ -56,8 +56,8 @@ void threadpool_destroy(threadpool_t* pool) {
 }
 
 void threadpool_add_task(threadpool_t* pool, void (*function)(void*), void* arg){
-    pool->task_queue[pool->queue_front + 1] = (task_t){ .fn = function, .arg = arg  };
-    pool->queue_front++;
+    pool->task_queue[(pool->queue_back - 1) % QUEUE_SIZE] = (task_t){ .fn = function, .arg = arg  };
+    pool->queue_back = (pool->queue_back - 1)  % QUEUE_SIZE;
     pool->queued++;
 }
 
