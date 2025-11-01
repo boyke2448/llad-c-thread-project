@@ -1,4 +1,4 @@
-#include "threadpool.h"
+#include "../inc/threadpool.h"
 
 void* thread_function(void *threadpool) {
     threadpool_t* pool = (threadpool_t*)threadpool;
