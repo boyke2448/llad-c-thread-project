@@ -18,6 +18,10 @@ void* thread_function(void *threadpool) {
         task_t task = pool->task_queue[pool->queue_front];
         pool->queue_front = (pool->queue_front + 1) % QUEUE_SIZE;
         pool->queued--;
+
+        pthread_mutex_unlock(&(pool->lock));
+
+        (*(task.fn))(task.arg);
     }
     return NULL;
 }
