@@ -1,7 +1,7 @@
 TARGET=./bin/my_program
 SRC=$(wildcard src/*.c)
 OBJ=$(SRC:src/%.c=obj/%.o)
-CFLAGS=-Wall -Wextra -I inc -pthread
+CFLAGS=-Wall -Wextra -I inc -pthread -g3
 
 all: $(TARGET)
 clean:
