@@ -3,7 +3,7 @@
 
 #include <pthread.h>
 
-#define THREADS 1
+#define THREADS 8
 
 #define QUEUE_SIZE 100
 
@@ -27,6 +27,7 @@ typedef struct {
 void threadpool_init(threadpool_t* pool);
 void threadpool_destroy(threadpool_t* pool);
 void threadpool_add_task(threadpool_t* pool, void (*function)(void*), void* arg);
+int queue_size(threadpool_t *pool);
 void example_task(void* arg);
 
 #endif // THREADPOOL_H 

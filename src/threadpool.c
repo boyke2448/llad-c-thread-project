@@ -10,7 +10,7 @@ void* thread_function(void *threadpool) {
     while(1) {
         pthread_mutex_lock(&(pool->lock));
 
-        while(pool->queued == 0 && !pool->stop) {
+        while((pool->queue_back - pool->queue_front) == 0 && !pool->stop) {
             pthread_cond_wait(&(pool->notify),&(pool->lock));
         }
 
@@ -75,6 +75,10 @@ void threadpool_add_task(threadpool_t* pool, void (*function)(void*), void* arg)
     }
 
     pthread_mutex_unlock(&(pool->lock));
+}
+
+int queue_size(threadpool_t *pool) {
+    return abs(pool->queue_back - pool->queue_front);
 }
 
 void example_task(void* arg){
